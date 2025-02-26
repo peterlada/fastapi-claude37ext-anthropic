@@ -36,7 +36,7 @@ uv pip install -e ".[dev]"
 Run the application locally:
 
 ```bash
-uvicorn src.hello_world_app.main:app --reload
+uvicorn src.app.main:app --reload
 ```
 
 Open your browser and navigate to `http://127.0.0.1:8000` to see the "Hello World" message.

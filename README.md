@@ -19,14 +19,7 @@ A simple "Hello World" web application built with Python 3.12 and FastAPI.
 
 ### Installation
 
-1. Clone the repository
-
-```bash
-git clone https://github.com/yourusername/hello_world_app.git
-cd hello_world_app
-```
-
-2. Create a virtual environment and install dependencies with UV
+1. Create a virtual environment and install dependencies with UV
 
 ```bash
 # Install UV if you don't have it already
@@ -46,26 +39,59 @@ Run the application locally:
 uvicorn src.hello_world_app.main:app --reload
 ```
 
-Open your browser and navigate to http://127.0.0.1:8000 to see the "Hello World" message.
+Open your browser and navigate to `http://127.0.0.1:8000` to see the "Hello World" message.
 
 API documentation is available at:
-- http://127.0.0.1:8000/docs (Swagger UI)
-- http://127.0.0.1:8000/redoc (ReDoc)
+
+- `http://127.0.0.1:8000/docs` (Swagger UI)
+- `http://127.0.0.1:8000/redoc` (ReDoc)
 
 ## Development
 
 ### Linting
 
+The linting workflow runs on every push and pull request to the `main` branch, checking code quality with Ruff:
+
 ```bash
+# To run linting locally:
 ruff check .
 ruff format .
 ```
 
 ### Testing
 
+The testing workflow runs pytest on every push and pull request to the `main` branch:
+
 ```bash
+# To run tests locally:
 pytest
 ```
+
+## CI/CD
+
+This project uses GitHub Actions for continuous integration and deployment:
+
+### Docker Deployment
+
+The Docker workflow builds and pushes a Docker image to DigitalOcean Container Registry when:
+
+- Changes are pushed to the `main` branch
+- A new tag is created (e.g., v1.0.0)
+- The workflow is manually triggered
+
+#### Docker Usage
+
+You can build and run the Docker image locally:
+
+```bash
+# Build the image
+docker build -t hello-world-app .
+
+# Run the container
+docker run -p 8000:8000 hello-world-app
+```
+
+Then access the application at `http://localhost:8000`.
 
 ## License
 

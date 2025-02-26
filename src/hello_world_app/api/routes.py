@@ -26,11 +26,11 @@ async def hello_name(name: str) -> dict[str, str]:
         dict: A dictionary containing a personalized greeting message.
 
     Raises:
-        HTTPException: If the name is empty.
+        HTTPException: If the name is empty or contains only whitespace.
     """
-    if not name:
+    if not name or name.strip() == "":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Name cannot be empty",
+            detail="Name cannot be empty or contain only whitespace",
         )
     return {"message": f"Hello, {name}!"}

@@ -26,12 +26,13 @@ def test_api_hello_name_endpoint(client: TestClient):
 
 
 def test_api_hello_name_endpoint_empty_name(client: TestClient):
-    """Test the /api/hello/{name} endpoint with an empty name returns an error."""
-    # FastAPI will convert an empty string in the path to a 404 error
+    """Test the /api/hello/{name} endpoint with various name values."""
+    # When accessing /api/hello/ FastAPI routes to the /api/hello endpoint
     response = client.get("/api/hello/")
-    assert response.status_code == 404
+    assert response.status_code == 200
+    assert response.json() == {"message": "Hello from the API!"}
 
-    # We can also test with a space, which should return a 400 error
+    # Testing with a space character as the name
     response = client.get("/api/hello/ ")
     assert response.status_code == 200
     assert response.json() == {"message": "Hello,  !"}

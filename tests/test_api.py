@@ -1,6 +1,5 @@
 """Tests for the API endpoints."""
 
-import pytest
 from fastapi.testclient import TestClient
 
 
@@ -33,6 +32,6 @@ def test_api_hello_name_endpoint_empty_name(client: TestClient):
     assert response.json() == {"message": "Hello from the API!"}
 
     # Testing with a space character as the name
-    response = client.get("/api/hello/ ")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Hello,  !"}
+    response = client.get("/api/hello/%20")
+    assert response.status_code == 400
+    assert response.json() == {"detail": "Name cannot be empty or contain only whitespace"}

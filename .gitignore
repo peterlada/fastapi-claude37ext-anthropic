@@ -61,3 +61,6 @@ venv.bak/
 
 # UV
 .uv/
+
+# uv side effect
+Pipfile

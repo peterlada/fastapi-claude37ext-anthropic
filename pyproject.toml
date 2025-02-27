@@ -25,6 +25,9 @@ dev = [
     "ruff>=0.1.5",
 ]
 
+[project.scripts]
+hello = "main:hello"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = "test_*.py"

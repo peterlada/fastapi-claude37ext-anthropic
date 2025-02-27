@@ -11,6 +11,7 @@ app = FastAPI(
     version="0.1.0",
 )
 
+
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
@@ -22,6 +23,11 @@ app.add_middleware(
 
 # Include API routes
 app.include_router(router)
+
+
+def hello() -> None:
+    """An example script."""
+    print("Hello world")
 
 
 @app.get("/")

@@ -1,10 +1,10 @@
 # Hello World FastAPI Application
 
-A simple "Hello World" web application built with Python 3.12 and FastAPI.
+A simple "Hello World" web application built with Python 3.13 and FastAPI.
 
 ## Features
 
-- Modern Python 3.12
+- Modern Python 3.13
 - FastAPI framework
 - UV package management
 - Ruff for linting
@@ -14,7 +14,7 @@ A simple "Hello World" web application built with Python 3.12 and FastAPI.
 
 ### Prerequisites
 
-- Python 3.12 or higher
+- Python 3.13 or higher
 - UV package manager
 
 ### Installation

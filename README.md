@@ -88,7 +88,7 @@ You can build and run the Docker image locally:
 docker build -t hello-world-app .
 
 # Run the container
-docker run -p 8000:8000 hello-world-app
+docker run -p 8000:80 hello-world-app
 ```
 
 Then access the application at `http://localhost:8000`.

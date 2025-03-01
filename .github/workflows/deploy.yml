@@ -1,0 +1,84 @@
+name: Deploy to DigitalOcean
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - prod
+      image_tag:
+        description: 'Docker image tag to deploy'
+        required: true
+        default: 'latest'
+        type: string
+
+jobs:
+  terraform:
+    name: 'Deploy with Terraform'
+    runs-on: ubuntu-latest
+    
+    env:
+      TF_VAR_do_token: ${{ secrets.DO_INFRA_ACCESS_TOKEN }}
+      TF_VAR_image_tag: ${{ github.event.inputs.image_tag }}
+      TF_WORKSPACE: ${{ github.event.inputs.environment }}
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.5.0
+      
+      - name: Configure Terraform backend
+        run: |
+          cat > backend.tf << EOF
+          terraform {
+            backend "s3" {
+              endpoint                    = "https://nyc3.digitaloceanspaces.com"
+              bucket                      = "infra-hello-world"
+              key                         = "hello-world-app/${{ github.event.inputs.environment }}/terraform.tfstate"
+              region                      = "us-east-1"  # Required but actually ignored
+              skip_credentials_validation = true
+              skip_region_validation      = true
+              skip_metadata_api_check     = true
+              force_path_style            = true
+            }
+          }
+          EOF
+          
+          mv backend.tf infra/terraform/
+      
+      - name: Terraform Init
+        working-directory: infra/terraform
+        run: |
+          terraform init \
+            -backend-config="access_key=${{ secrets.DO_S3_ACCESS }}" \
+            -backend-config="secret_key=${{ secrets.DO_S3_SECRET }}"
+      
+      - name: Terraform Validate
+        working-directory: infra/terraform
+        run: terraform validate
+      
+      - name: Terraform Plan
+        working-directory: infra/terraform
+        run: |
+          terraform plan \
+            -var-file="../env/${{ github.event.inputs.environment }}/terraform.tfvars" \
+            -out=tfplan
+      
+      - name: Terraform Apply
+        working-directory: infra/terraform
+        run: terraform apply -auto-approve tfplan
+      
+      - name: Output App URL
+        working-directory: infra/terraform
+        run: |
+          echo "App deployed successfully!"
+          echo "App URL: $(terraform output -raw app_live_url)"

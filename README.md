@@ -93,6 +93,20 @@ docker run -p 8000:80 hello-world-app
 
 Then access the application at `http://localhost:8000`.
 
-## License
+### Deployment to DigitalOcean
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+The project uses a GitOps approach for deploying to DigitalOcean App Platform:
+
+1. Infrastructure is defined as code using Terraform in the `infra/` directory
+2. Environment-specific configurations are in `infra/env/`
+3. GitHub Actions workflow handles deployment to different environments
+
+To deploy:
+
+1. Go to the "Actions" tab in your repository
+2. Select the "Deploy to DigitalOcean" workflow
+3. Click "Run workflow"
+4. Select the environment (dev or prod) and image tag to deploy
+5. Click "Run workflow" to start the deployment
+
+For more details on the infrastructure setup, see [infra/README.md](infra/README.md).

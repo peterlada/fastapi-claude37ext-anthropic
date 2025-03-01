@@ -2,10 +2,14 @@
     "cSpell.words": [
         "buildx",
         "CREG",
+        "DOCR",
         "doctl",
         "fastapi",
+        "gitops",
         "pyproject",
         "Pytest",
+        "tfstate",
+        "tfvars",
         "uvicorn",
         "venv"
     ]

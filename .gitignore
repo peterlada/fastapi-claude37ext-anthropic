@@ -61,3 +61,7 @@ venv.bak/
 
 # uv side effect
 Pipfile
+
+
+# Terraform
+infra/terraform/.terraform*
